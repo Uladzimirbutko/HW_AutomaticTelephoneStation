@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace HW_ATS
 {
@@ -13,7 +14,9 @@ namespace HW_ATS
         public long Number { get; set; }
         private double coefficient;
 
-        public List<(int, string)> InformationOfTheCall = new List<(int, string)>();
+         public List<(int, DateTime)> InformationOfTheCall = new List<(int, DateTime)>();
+         public List<double> CostCall = new List<double>();
+
 
         public void GetNumber() // генератор номеров
         {
@@ -61,7 +64,7 @@ namespace HW_ATS
             }
         }
 
-        double ITariffUnlimited.CallCost(Clients callCost) //генерация 30 звонков по тарифу безлимит
+        double ITariffUnlimited.CallCost(Clients callCost) //генерация 20 звонков по тарифу безлимит
         {
             double result = 50; //абон плата
             Console.WriteLine(
@@ -76,9 +79,7 @@ namespace HW_ATS
                     InformationOfTheCall.Add(CallTimeAndDate());
                     minutesPerMonth += InformationOfTheCall[i].Item1;
                 }
-
-                InformationOfTheCall.OrderBy(i => i.Item2);
-
+                
                 if (minutesPerMonth > 400)
                 {
                     coefficient = 2;
@@ -105,9 +106,7 @@ namespace HW_ATS
 
 
 
-        void ITariffUnlimited.
-            PhonePaymentPerMonth(Clients payPhone,
-                ITariffUnlimited tariffUnlimited) // оплата за месяц тариф беспл. 400 минут
+        void ITariffUnlimited.PhonePaymentPerMonth(Clients payPhone, ITariffUnlimited tariffUnlimited) // оплата за месяц тариф беспл. 400 минут
         {
             double cost = tariffUnlimited.CallCost(payPhone);
             Message?.Invoke(cost != 0
@@ -130,8 +129,7 @@ namespace HW_ATS
                     InformationOfTheCall.Add(CallTimeAndDate());
                     minutesPerMonth += InformationOfTheCall[i].Item1;
                 }
-
-                InformationOfTheCall.OrderBy(key => key.Item2);
+                
                 coefficient = 1.2;
                 result = minutesPerMonth * coefficient + result;
                 Message?.Invoke(new ATSEventArgsMessage($"You spoke for {minutesPerMonth} minutes per month." +

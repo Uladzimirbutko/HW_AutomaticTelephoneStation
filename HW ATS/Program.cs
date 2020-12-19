@@ -38,12 +38,14 @@ namespace HW_ATS
             client3.Port.Message += automaticTelephoneStation.MessagePort; 
 
             //заключаем контракты
+            Console.WriteLine("We conclude a contract.");
             automaticTelephoneStation.ContractWithClient(client1);
             automaticTelephoneStation.ContractWithClient(client2);
             automaticTelephoneStation.ContractWithClient(client3);
             Console.WriteLine();
 
             //добавляем контакты первый клиент это - кому добавляем второго клиента
+            Console.WriteLine("Add user to contacts");
             client1.Port.AddContact(client1, client2); 
             client1.Port.AddContact(client1, client3);
             client2.Port.AddContact(client2, client1);
@@ -53,6 +55,7 @@ namespace HW_ATS
             Console.WriteLine();
 
             //оплачиваем счета и генерируем звонки
+            Console.WriteLine("Phone payment");
             ITariffUnlimited tariffUnlimitedClient1 = client1.Port.SimCard;
             tariffUnlimitedClient1.PhonePaymentPerMonth(client1,tariffUnlimitedClient1);
             Console.WriteLine();
@@ -66,25 +69,32 @@ namespace HW_ATS
             Console.WriteLine();
 
             //смотрим все звонки они почему то одинаковые хз как решить
+            Console.WriteLine("Viewing all calls.");
             client1.Port.GetAllCalls(client1);
             Console.WriteLine();
             client2.Port.GetAllCalls(client2);
             Console.WriteLine();
             client3.Port.GetAllCalls(client3);
+            Console.WriteLine();
 
             //удаляем по одному контакту
+            Console.WriteLine("Золотухин Шолох removed");
             client1.Port.RemoveContacts(client2);
+            Console.WriteLine("Каримбек Шведов removed");
             client2.Port.RemoveContacts(client3);
+            Console.WriteLine("Лапин Игнат removed");
             client3.Port.RemoveContacts(client1);
             Console.WriteLine();
 
             // проверяем есть ли такой контакт если нет - выводится весь список
+            Console.WriteLine("Золотухин Шолох search Лапин Игнат");
             client1.Port.GetNumberAddContacts(client3);
-            Console.WriteLine();
+            Console.WriteLine("Золотухин Шолох search Каримбек Шведов");
             client1.Port.GetNumberAddContacts(client2); //этого нет потому что удалили.
             Console.WriteLine();
 
             //эмулируем звонок c занятой линией
+            Console.WriteLine("Call emulation");
             automaticTelephoneStation.ClientConnectionPort(client1,client2,client3);
 
         }

@@ -90,15 +90,15 @@ namespace HW_ATS
 
                 if (result.Item2 && IsTheSimCardConnected) // если всё в порядке совершаем звонок
                 {
-                    var callDateToday = DateTime.Today;
+                    var callDateToday = SimCard.CallTimeAndDate().Item2;
                     if (callDateToday == DateTime.Today)// в рамках дня, что бы не рандомить до минуты. если совпадает - то занято
                     { 
-                        Message?.Invoke(new ATSEventArgsMessage($"The subscriber makes another call"));
+                        Message?.Invoke(new ATSEventArgsMessage($"The subscriber {contact.FirstName} {contact.LastName} makes another call"));
                     }
                     else
                     {
-                        var callTimeAndDate = SimCard.CallTimeAndDate();
-                        Message?.Invoke(new ATSEventArgsMessage($"Call in progress {callTimeAndDate.Item2} - " +
+
+                        Message?.Invoke(new ATSEventArgsMessage($"Call in progress {DateTime.Now} - " +
                                                                 $"subscriber {contact.FirstName} {contact.LastName}"));
                     }
                 }
@@ -108,9 +108,13 @@ namespace HW_ATS
                                                         " The subscriber's device is turned off or is out of network range."));
                 }
             }
-            public void GetAllCalls(Clients client) // 
+            public void GetAllCalls(Clients client) 
             {
-                foreach (var get in SimCard.InformationOfTheCall)
+                var orderedOfDay = from i in SimCard.InformationOfTheCall
+                    orderby i.Item2
+                    select i;
+
+                foreach (var get in orderedOfDay)
                 {
                     Console.WriteLine($"{client.FirstName} {client.LastName} call date { get.Item2} - call duration {get.Item1} minutes ");
                 }
