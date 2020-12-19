@@ -73,8 +73,8 @@ namespace HW_ATS
 
                 if (result.Item2 && IsTheSimCardConnected) // если все в порядке совершаем звонок
                 {
-                    SimCard.CallTimeAndDate(); 
-                    Message?.Invoke( new ATSEventArgsMessage($"Call in progress { SimCard.CallTimeAndDate().Item2} - " +
+                    PortForConnected.CallTimeAndDate(); 
+                    Message?.Invoke( new ATSEventArgsMessage($"Call in progress { PortForConnected.CallTimeAndDate().Item2} - " +
                                                              $"subscriber {contact.FirstName} {contact.LastName}"));
                 }
                 else 
@@ -90,7 +90,7 @@ namespace HW_ATS
 
                 if (result.Item2 && IsTheSimCardConnected) // если всё в порядке совершаем звонок
                 {
-                    var callDateToday = SimCard.CallTimeAndDate().Item2;
+                    var callDateToday = PortForConnected.CallTimeAndDate().Item2;
                     if (callDateToday == DateTime.Today)// в рамках дня, что бы не рандомить до минуты. если совпадает - то занято
                     { 
                         Message?.Invoke(new ATSEventArgsMessage($"The subscriber {contact.FirstName} {contact.LastName} makes another call"));
@@ -118,6 +118,7 @@ namespace HW_ATS
                 {
                     Console.WriteLine($"{client.FirstName} {client.LastName} call date { get.Item2} - call duration {get.Item1} minutes ");
                 }
+                SimCard.InformationOfTheCall.Clear();
             }
             
     }

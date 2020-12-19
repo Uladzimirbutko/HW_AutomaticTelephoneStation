@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace HW_ATS
 {
@@ -14,9 +13,7 @@ namespace HW_ATS
         public long Number { get; set; }
         private double coefficient;
 
-         public List<(int, DateTime)> InformationOfTheCall = new List<(int, DateTime)>();
-         public List<double> CostCall = new List<double>();
-
+        public List<(int, DateTime)> InformationOfTheCall = new List<(int, DateTime)>();
 
         public void GetNumber() // генератор номеров
         {
@@ -73,11 +70,11 @@ namespace HW_ATS
             if (callCost != default)
             {
                 int minutesPerMonth = 0;
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 15; i++)
                 {
-                    
                     InformationOfTheCall.Add(CallTimeAndDate());
                     minutesPerMonth += InformationOfTheCall[i].Item1;
+                    
                 }
                 
                 if (minutesPerMonth > 400)
@@ -104,8 +101,6 @@ namespace HW_ATS
             return result;
         }
 
-
-
         void ITariffUnlimited.PhonePaymentPerMonth(Clients payPhone, ITariffUnlimited tariffUnlimited) // оплата за месяц тариф беспл. 400 минут
         {
             double cost = tariffUnlimited.CallCost(payPhone);
@@ -113,7 +108,6 @@ namespace HW_ATS
                 ? new ATSEventArgsMessage($"You paid {cost}$.")
                 : new ATSEventArgsMessage($"Payment is not possible."));
         }
-
 
         double ITariffSuper.CallCost(Clients callCost) // генерация звонков по тарифу супер
         {
@@ -123,8 +117,7 @@ namespace HW_ATS
             if (callCost != default)
             {
                 double minutesPerMonth = 0;
-
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     InformationOfTheCall.Add(CallTimeAndDate());
                     minutesPerMonth += InformationOfTheCall[i].Item1;
@@ -139,8 +132,7 @@ namespace HW_ATS
                 Message?.Invoke(new ATSEventArgsMessage($"The client does not exist."));
                 result = 0;
             }
-
-            return result;
+            return Math.Round(result,2);
         }
 
         void ITariffSuper.PhonePaymentPerMonth(Clients payPhone, ITariffSuper tariffSuper) //оплата тарифа супер

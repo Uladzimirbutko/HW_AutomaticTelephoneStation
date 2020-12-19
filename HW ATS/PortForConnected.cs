@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading;
+
 
 namespace HW_ATS
 {
     public class PortForConnected
     {
-
-         // список клиентов
-
         public event Action<ATSEventArgsMessage> PortConnectingEvent;
 
-        public int minutes;
-        public Random getNumber = new Random();
+        public static int minutes;
+        public static Random getNumber = new Random();
 
         public Dictionary<Clients, long> ClientsDictionary = new Dictionary<Clients, long>();
-        public (int, DateTime) CallTimeAndDate()   // дата и длительность звонка
+        public static (int, DateTime) CallTimeAndDate()   // дата и длительность звонка
         {
             minutes = getNumber.Next(1, 60);
             var getDateCall = RandomDateTime.Next();
@@ -26,10 +22,8 @@ namespace HW_ATS
         }
         public void ClientConnectionPort(Clients client1, Clients client2, Clients client3 = null) // порт соединения клиентов
         {
-
             long number1 = ClientsDictionary[client1];
             long number2 = ClientsDictionary[client2];
-
 
             if (client1 == null)
             {
@@ -43,14 +37,12 @@ namespace HW_ATS
                      client2.Port.IsTheSimCardConnected) 
                 {
                     client1.Port.Call1(client2); 
-                    client2.Port.Call2(client1); 
-
+                    client2.Port.Call2(client1);
                 }
                 else
                 {
                     PortConnectingEvent?.Invoke(new ATSEventArgsMessage($"The subscriber you are calling is temporarily unavailable"));
                 }
-                
             }
             else if (client3 != null)
             {

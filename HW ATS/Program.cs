@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace HW_ATS
 {
@@ -58,31 +57,25 @@ namespace HW_ATS
             Console.WriteLine("Phone payment");
             ITariffUnlimited tariffUnlimitedClient1 = client1.Port.SimCard;
             tariffUnlimitedClient1.PhonePaymentPerMonth(client1,tariffUnlimitedClient1);
+            client1.Port.GetAllCalls(client1); // просматриваем звонки
             Console.WriteLine();
 
             ITariffSuper tariffSuperClient2 = client2.Port.SimCard;
             tariffSuperClient2.PhonePaymentPerMonth(client2,tariffSuperClient2);
+            client2.Port.GetAllCalls(client2); // просматриваем звонки
             Console.WriteLine();
 
             ITariffUnlimited tariffUnlimitedClient3 = client3.Port.SimCard;
             tariffUnlimitedClient3.PhonePaymentPerMonth(client3,tariffUnlimitedClient3);
-            Console.WriteLine();
-
-            //смотрим все звонки они почему то одинаковые хз как решить
-            Console.WriteLine("Viewing all calls.");
-            client1.Port.GetAllCalls(client1);
-            Console.WriteLine();
-            client2.Port.GetAllCalls(client2);
-            Console.WriteLine();
-            client3.Port.GetAllCalls(client3);
+            client3.Port.GetAllCalls(client3); // просматриваем звонки
             Console.WriteLine();
 
             //удаляем по одному контакту
-            Console.WriteLine("Золотухин Шолох removed");
+            Console.WriteLine("Золотухин Шолох removes");
             client1.Port.RemoveContacts(client2);
-            Console.WriteLine("Каримбек Шведов removed");
+            Console.WriteLine("Каримбек Шведов removes");
             client2.Port.RemoveContacts(client3);
-            Console.WriteLine("Лапин Игнат removed");
+            Console.WriteLine("Лапин Игнат removes");
             client3.Port.RemoveContacts(client1);
             Console.WriteLine();
 
