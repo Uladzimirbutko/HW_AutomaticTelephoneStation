@@ -129,7 +129,6 @@ namespace HW_ATS
                     InformationOfTheCall.Add(CallTimeAndDate());
                     minutesPerMonth += InformationOfTheCall[i].Item1;
                 }
-                
                 coefficient = 1.2;
                 result = minutesPerMonth * coefficient + result;
                 Message?.Invoke(new ATSEventArgsMessage($"You spoke for {minutesPerMonth} minutes per month." +

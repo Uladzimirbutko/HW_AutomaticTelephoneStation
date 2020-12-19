@@ -14,7 +14,6 @@ namespace HW_ATS
         public event Action<ATSEventArgsMessage> PortConnectingEvent;
 
         public int minutes;
-        public string dateCall;
         public Random getNumber = new Random();
 
         public Dictionary<Clients, long> ClientsDictionary = new Dictionary<Clients, long>();
